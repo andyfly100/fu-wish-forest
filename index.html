@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>福愿传声，星火成林</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- 公网中文字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== 全局样式 ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      /* 更喜庆的红金渐变背景 + 轻微纹理感 */
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.4) 0%, transparent 40%),
+        radial-gradient(circle at bottom, rgba(255,223,186,0.7) 0%, transparent 45%),
+        linear-gradient(180deg, #c40000 0%, #f02b2b 40%, #ff9b3d 100%);
+      color: #4a1f1f;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 16px 10px 24px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 720px; /* 更贴合手机宽度 */
+      background: rgba(255, 252, 246, 0.96);
+      border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(80, 0, 0, 0.35);
+      border: 2px solid rgba(198, 45, 32, 0.45);
+      padding: 16px 14px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 背景淡福字装饰 */
+    .app-container::before,
+    .app-container::after {
+      content: "福";
+      position: absolute;
+      font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
+      font-size: 60px;
+      color: rgba(180, 0, 0, 0.08);
+      z-index: 0;
+    }
+    .app-container::before {
+      top: -10px;
+      left: 8px;
+    }
+    .app-container::after {
+      bottom: -12px;
+      right: 10px;
+    }
+
+    .content-layer {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 标题区 ===== */
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+      padding: 10px 10px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #b30000, #e01a1a);
+      color: #fff7e6;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "福";
+      position: absolute;
+      font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
+      font-size: 120px;
+      color: rgba(255, 255, 255, 0.08);
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-18deg);
+    }
+
+    .main-title {
+      font-family: "STKaiti", "KaiTi", "SimHei", "Noto Sans SC", sans-serif;
+      font-size: 28px;        /* 手机端更大 */
+      letter-spacing: 4px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .time-display {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #ffe7c2;
+    }
+
+    /* ===== 祝福显示区域 ===== */
+    .blessing-section {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #b30000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .section-title::before {
+      content: "🧧";
+      font-size: 16px;
+    }
+
+    /* 更中国风的装饰边框 */
+    .blessing-card {
+      position: relative;
+      background: #fffaf0;
+      border-radius: 16px;
+      padding: 16px 14px 16px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      /* 双层描边效果 */
+      border: 2px solid #d5a246;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.7) inset,
+        0 12px 26px rgba(135, 60, 0, 0.18);
+    }
+
+    /* 内部淡纹理与光晕 */
+    .blessing-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top, rgba(255, 230, 170, 0.6) 0%, transparent 55%),
+        radial-gradient(circle at bottom, rgba(255, 210, 150, 0.5) 0%, transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    /* 四角小福字装饰 */
+    .blessing-card::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 12px;
+      border: 1px dashed rgba(205, 152, 69, 0.7);
+      pointer-events: none;
+    }
+
+    .corner-fu {
+      position: absolute;
+      font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
+      font-size: 14px;
+      color: rgba(180, 0, 0, 0.55);
+      z-index: 2;
+    }
+    .corner-fu.tl { top: 4px; left: 8px; }
+    .corner-fu.tr { top: 4px; right: 8px; }
+    .corner-fu.bl { bottom: 4px; left: 8px; }
+    .corner-fu.br { bottom: 4px; right: 8px; }
+
+    .blessing-text {
+      position: relative;
+      z-index: 1;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #5a2810;
+      white-space: pre-wrap;
+      text-align: center;
+      padding: 0 6px;
+    }
+
+    .blessing-author {
+      position: relative;
+      z-index: 1;
+      margin-top: 8px;
+      font-size: 13px;
+      text-align: right;
+      color: #b65a18;
+      padding-right: 4px;
+    }
+
+    .placeholder {
+      font-size: 14px;
+      color: #b77b52;
+      text-align: center;
+    }
+
+    /* 抽取动画效果 */
+    .blessing-card.animating {
+      animation: card-pop 0.65s ease-out;
+    }
+
+    @keyframes card-pop {
+      0%   { transform: scale(0.96); box-shadow: 0 0 0 rgba(135, 60, 0, 0.16); }
+      50%  { transform: scale(1.02); box-shadow: 0 12px 28px rgba(180, 0, 0, 0.35); }
+      100% { transform: scale(1);    box-shadow: 0 12px 26px rgba(135, 60, 0, 0.18); }
+    }
+
+    /* ===== 烟花 & 小福字特效 ===== */
+    .firework {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffd700;
+      box-shadow: 0 0 10px #ffd700;
+      pointer-events: none;
+      animation: firework-burst 700ms ease-out forwards;
+      z-index: 99;
+    }
+
+    .firework::before,
+    .firework::after {
+      content: "福";
+      position: absolute;
+      font-size: 12px;
+      font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
+      color: #b30000;
+    }
+
+    .firework::before {
+      top: -20px;
+      left: -14px;
+    }
+    .firework::after {
+      bottom: -20px;
+      right: -14px;
+    }
+
+    @keyframes firework-burst {
+      0%   { transform: scale(0.5); opacity: 1; }
+      60%  { transform: scale(2.4); opacity: 1; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    /* ===== 按钮区域 ===== */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .draw-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 40px;
+      border-radius: 999px;
+      border: 2px solid #ffd36f;
+      background: radial-gradient(circle at top, #ffeaa7 0%, #ffd36f 40%, #ffb347 100%);
+      color: #7a2500;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #c76a10, 0 10px 18px rgba(184, 81, 0, 0.4);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+      width: 100%; /* 手机上按钮占满宽度，方便点击 */
+      max-width: 360px;
+    }
+
+    .draw-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #c76a10, 0 6px 12px rgba(184, 81, 0, 0.35);
+      filter: brightness(0.96);
+    }
+
+    .draw-btn.disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      box-shadow: 0 3px 0 #a8a8a8;
+      background: #e0e0e0;
+      color: #666;
+    }
+
+    .helper-text {
+      font-size: 12px;
+      color: #9c4d16;
+      text-align: center;
+    }
+
+    /* ===== 历史记录 ===== */
+    .history-section {
+      margin-bottom: 12px;
+    }
+
+    .history-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #b30000;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .history-title::before {
+      content: "📜";
+      font-size: 15px;
+    }
+
+    .history-list {
+      max-height: 170px;          /* 手机上稍低一点 */
+      overflow-y: auto;
+      border-radius: 12px;
+      border: 1px solid #f1c27d;
+      background: rgba(255, 250, 240, 0.9);
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .history-item {
+      padding: 5px 0;
+      border-bottom: 1px dashed rgba(210, 140, 90, 0.55);
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-text {
+      color: #6b360f;
+      line-height: 1.5;
+    }
+
+    .history-meta {
+      margin-top: 2px;
+      font-size: 11px;
+      color: #a67040;
+      text-align: right;
+    }
+
+    .history-empty {
+      text-align: center;
+      color: #b38b5a;
+      padding: 6px 0;
+    }
+
+    /* ===== 添加祝福表单 ===== */
+    .form-section {
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px dashed #d58f3b;
+      background: rgba(255, 251, 244, 0.96);
+    }
+
+    .form-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #b30000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .form-title::before {
+      content: "✍️";
+      font-size: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .form-row label {
+      font-size: 12px;
+      color: #8b4b16;
+    }
+
+    .form-row textarea,
+    .form-row input {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #e5b46b;
+      padding: 6px 8px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      background: #fffdf7;
+    }
+
+    .form-row textarea {
+      resize: vertical;
+      min-height: 50px;
+      max-height: 120px;
+    }
+
+    .form-row textarea:focus,
+    .form-row input:focus {
+      border-color: #d17a26;
+      box-shadow: 0 0 0 2px rgba(209, 122, 38, 0.2);
+      background: #fff;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .btn-small {
+      border: none;
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .btn-small:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      background: #d17a26;
+      color: #fffdf5;
+      box-shadow: 0 3px 0 #9b5515;
+    }
+
+    .btn-primary:hover {
+      background: #e18a34;
+    }
+
+    .btn-secondary {
+      background: #f4e0bf;
+      color: #6f4215;
+      box-shadow: 0 3px 0 #c9a274;
+    }
+
+    .btn-secondary:hover {
+      background: #f8e9cf;
+    }
+
+    .form-tip {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #a06a31;
+    }
+
+    /* ===== 页脚 ===== */
+    .footer {
+      margin-top: 4px;
+      text-align: center;
+      font-size: 11px;
+      color: #a77045;
+    }
+
+    .footer span {
+      color: #c0392b;
+      font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
+    }
+
+    /* ===== 响应式调整（更宽设备） ===== */
+    @media (min-width: 768px) {
+      .app-container {
+        padding: 20px 22px 22px;
+      }
+
+      .main-title {
+        font-size: 34px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+
+      .blessing-card {
+        padding: 20px 18px 18px;
+        min-height: 140px;
+      }
+
+      .blessing-text {
+        font-size: 16px;
+      }
+
+      .history-list {
+        max-height: 220px;
+      }
+
+      .draw-btn {
+        width: auto;
+        padding: 12px 56px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      body {
+        padding: 12px 6px 20px;
+      }
+      .app-container {
+        padding: 14px 10px 18px;
+      }
+      .main-title {
+        font-size: 26px;
+      }
+      .blessing-card {
+        padding: 14px 10px;
+      }
+      .blessing-text {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="content-layer">
+      <!-- ===== 顶部标题 ===== -->
+      <header class="header">
+        <h1 class="main-title">福愿传声，星火成林</h1>
+        <div class="subtitle">扫码一抽，收集来自四面八方的温暖祝福</div>
+        <div id="timeDisplay" class="time-display">— 加载当前时间中 —</div>
+      </header>
+
+      <!-- ===== 祝福显示区域 ===== -->
+      <section class="blessing-section">
+        <div class="section-title">今日锦鲤祝福</div>
+        <div id="blessingCard" class="blessing-card">
+          <!-- 四角小福字装饰 -->
+          <div class="corner-fu tl">福</div>
+          <div class="corner-fu tr">福</div>
+          <div class="corner-fu bl">福</div>
+          <div class="corner-fu br">福</div>
+
+          <div id="blessingText" class="blessing-text placeholder">
+            点击下方「抽取祝福」按钮，看看哪一条温暖会先来到你身边 ✨
+          </div>
+          <div id="blessingAuthor" class="blessing-author"></div>
+        </div>
+      </section>
+
+      <!-- ===== 操作按钮 ===== -->
+      <section class="actions">
+        <button id="drawBtn" class="draw-btn">
+          <span>抽取祝福</span>
+        </button>
+        <div class="helper-text">
+          每条祝福只会被抽到一次，静静收集这一片小小星火。
+        </div>
+      </section>
+
+      <!-- ===== 历史记录 ===== -->
+      <section class="history-section">
+        <div class="history-title">已抽到的祝福记录</div>
+        <div id="historyList" class="history-list">
+          <div class="history-empty">还没有抽到任何祝福，等待第一束小小星火点亮 🌟</div>
+        </div>
+      </section>
+
+      <!-- ===== 添加祝福表单 ===== -->
+      <section class="form-section">
+        <div class="form-title">添加一条属于你的祝福</div>
+        <form id="addForm">
+          <div class="form-row">
+            <label for="blessingInput">祝福内容（不含署名）：</label>
+            <textarea id="blessingInput" placeholder="写下一句你想送给陌生人或朋友的祝福……"></textarea>
+          </div>
+          <div class="form-row">
+            <label for="authorInput">署名（可选）：</label>
+            <input id="authorInput" type="text" placeholder="如：小确幸、某某妈妈、来自XXX" />
+          </div>
+          <div class="form-actions">
+            <button type="button" id="resetFormBtn" class="btn-small btn-secondary">清空</button>
+            <button type="submit" class="btn-small btn-primary">加入祝福池</button>
+          </div>
+          <div class="form-tip">
+            新增祝福仅保存在本次浏览器中，不会影响原始祝福列表。
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== 页脚 ===== -->
+      <footer class="footer">
+        <div>愿每一声祝福，都成为你心里的<span>小小星火</span>，聚成一片温暖的森林。</div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===== 背景音乐（可替换为你自己的纯音乐 mp3 地址） ===== -->
+  <audio id="bgm" src="https://assets.mixkit.co/music/preview/mixkit-a-slow-dance-25.mp3" loop></audio>
+
+  <script>
+    // ================== 祝福数据（与上个版本一致） ==================
+    const rawBlessings = [
+      "平安顺遂，温暖和煦，所遇皆美好！——dddddd",
+      "祝福平安喜乐——小确幸",
+      "亲爱的朋友祝你在新的一年里 目之所及皆繁花，心之向往皆如愿——春奕",
+      "愿你生活顺遂、开开心心！——俞辰妈妈",
+      "2026越来越好，万事顺心！——亲亲的壮壮",
+      "吃嘛嘛香、躺床就睡——小肥儿",
+      "祝您岁岁平安，吉祥如意！——胡安静",
+      "愿新年好运相随，无忧无虑常欢喜——小青",
+      "愿你万事顺意——王睿劼",
+      "祝愿健康快乐每一天。——lucky",
+      "如意祝福平安喜乐——小确幸",
+      "祝您安居乐业！——晴儿",
+      "祝幸福安康，更上一层楼",
+      "祝福我们的祖国繁荣昌盛，民富国强",
+      "平静，财富，健康送给你——幸福",
+      "2026年是成就的一年，是踏实每一天的一年。——wawa",
+      "愿你在前行的路上，始终与自己的心温柔相伴。若感到疲惫，就停下来好好拥抱自己；若遇风雨，就撑起那把名叫“自我关怀”的伞。好好吃饭，好好休息，善待每一刻情绪，珍视自己的存在本身。你值得被自己好好爱护——你的温柔，应当同样流向自己。——童童",
+      "其实信念微乎可微，坚持到底就是胜利——星天来",
+      "希望你事事如意 健康 开心——晴天",
+      "别忘了多爱自己一点！愿你健康平安，幸运常伴！——薏安",
+      "愿你幸福安康 美好的愿望成真——木木",
+      "心想事成——Alice",
+      "愿你心想事成——月湖",
+      "2026，数字全是双数，中国讲究好事成双，希望2026年的您，工作量减倍，挣钱加倍，生活好运连连！——文若若",
+      "祝福您及您家人福运亨通。——黄桂画",
+      "累了吗？没关系，累了就歇一歇然后再出发——莉莉向小园",
+      "亲爱的陌生人，祝你事事顺心——星辰",
+      "每个年龄都有好日子，每一天都值得好好过！——桦",
+      "新的一年，祝福我们都能成为喜悦而又绽放的存在！——Fanfan的幸福地图",
+      "新的一年，愿您的身体和心灵同守美的港湾！——小张张",
+      "希望您永远喜悦，健康，平和！财富越来越多！——一片云",
+      "你本来就很好，将来会更好！——陈丹",
+      "时间从不回答，却让所有坚持显露出金色的质地。——Darling",
+      "福气满满万事顺遂——在路上",
+      "抬头看，永远有希望，心想事成——格勒雀吉",
+      "祝福你身体健康，家庭幸福和睦，事业有成——沐浴阳光",
+      "我希望你要每天保持开心快乐吖！人生不就是虚无而来，虚无而去，不如意事十有八九，但是我仍然坚信，美好的生活就在前方，只有身体健康才是最重要，保持内心平静，现在的我才懂得，平平淡淡才是真，不过分追求物质生活，活在当下，及时行乐，知足常乐，加油陌生人，——吕泽惠",
+      "做自己就好。——晏",
+      "阿弥陀佛——妙音",
+      "愿你三餐规律、睡觉安稳，平凡日子也过得有滋有味——cui",
+      "愿您身心舒畅，事事顺遂皆如意，岁岁安康福绵绵！——郑艳颜",
+      "2026年大吉大利！——皓然全家",
+      "一句阿弥陀，万德洪名具。 但能一心持，何愿不成就。——弥陀之子",
+      "未来的每一天都是开心的顺心的——虹润",
+      "家庭和顺——郭美娇",
+      "愿你眼里有光，心中有爱，身心健康，事事如意，家人安康，孩子成才，日进日新。——燕子",
+      "新的一年祝您身轻体健，事事顺遂🧧——裕廷",
+      "愿你心有欢喜过生活——徐欣怿",
+      "你很好，希望我们新的一年都很好。——常乐",
+      "相信相信的力量——山水",
+      "愿你的生活，平静喜乐健康永相随！抬头望去，也是意中人，彼此都很珍惜这份感情！——向阳而生",
+      "让我们把关注点重新带回我们的内心——快速",
+      "亲爱的朋友你好：如果你收到这条祝福，说明我们是有缘人，愿我们在马年，爱自己，做自已，先悦己，再悦人，祝2006年平安顺遂。——辰沄",
+      "祝福每一个人都身体健康！丰盛富足！平安喜乐！——彩华",
+      "请相信相信的力量！你是最棒的！——精灵角",
+      "凡事发生必有利于你，希望你开心！——若荥❤轩溢",
+      "愿你拥有家人，拥有健康，拥有幸福，拥有爱的能量，便会诸事顺遂！——澄澈",
+      "愿您顺顺利利，心想事成!——燕子",
+      "祝愿远方的朋友每天都有一份小确幸！——惜全",
+      "宇宙的能量都会来帮你实现愿望！——火种",
+      "真心祝愿您及家人身体健康，万事顺遂——清雅茉莉",
+      "有缘人 祝你一切安好🌹——花花",
+      "祝你快乐——小星",
+      "愿你平安健康，幸福美满！——紫衣素筝",
+      "祝福有缘人：愿您成为自己的光，无惧黑暗！——舒欣",
+      "愿你我都能遇事不急，从容应对！——吴",
+      "你的心态有多好，便活得有多好——仙",
+      "万事顺利——左边的小聪明",
+      "时光知冬，岁月知寒。与冬相伴，约定一场温馨；与雪共舞，邂逅一季安暖。学会珍惜眼前，拥抱每一份美好。感恩每一缕阳光，感恩每一次雪落。愿寒冬带给你温暖，往后余生，心中充满希望，岁月如歌，安暖常伴。——君萧默",
+      "祝愿祖国繁荣昌盛，世界和平安宁——猴爸",
+      "健健康康，平平安安，顺顺利利，一切都会越来越好的！——郝",
+      "所得皆所愿，所遇皆所求——浅黛微妆",
+      "安康喜顺！——人生如水",
+      "愿你身体健康、工作顺利、家庭幸福美满！——晴朗天空",
+      "愿您每个平凡的日子里，都有不期而遇的温暖，和生生不息的希望，三餐四季，平安喜乐。——李蓓",
+      "生活不只是逻辑，更是能量的流动——种萱",
+      "远方的朋友，愿你生活工作顺顺利利，每日皆满足愉快。——邓婷婷(买家的丫头)",
+      "愿你平安健康，发大财！！——妞妈",
+      "给你我最真诚的祝福和拥抱，掸去所有疲惫和坏心情——飞扬",
+      "万事胜意，平安喜乐——平安顺遂",
+      "心向暖阳，梦在前方。且歌且行，一路芬芳!——团子",
+      "希望你开心，希望你快乐——琼玖",
+      "祝你在新的一年里身体健康工作顺利开开心心——敬畏理性",
+      "越来越好，越来越顺——巧巧",
+      "平安喜乐——娟",
+      "爱自己是终生浪漫的开始——清晨",
+      "事事顺心如意！——星晨",
+      "愿您健康，快乐，顺利！智慧！——印居",
+      "㊗️每位朋友安住内心，自在生活。——面包树",
+      "加油，做自己！——涟铱lucky",
+      "我愿意你的日子轻松一点😊——徐徐",
+      "以后的日子里，好好爱自己，爱家人，一切都会好的，不忘初心方得始终！——脱颖灵菊",
+      "你好，愿你一切皆好！——初一",
+      "愿平安、喜乐、安康——石斛",
+      "天行健，君子以自强不息。——蒙之",
+      "愿你过自己喜欢的生活，福慧双至所愿皆成！——和风暖阳",
+      "愿所念之人平安喜乐，原所想之事顺心如意！——如 月 smile",
+      "愿你我他，生活幸福美满！事业蒸蒸日上！——吉",
+      "用心感受人生的每一个瞬间，花开花落，自由声音，福寿安康❤——小苒",
+      "过去的得失，别太在意：明天的事情，别太惦记：忙碌的时候，要照顾好自己：身体才是本钱，平安健康才能幸福。——jKSf",
+      "一起旺起来——笨笨宝之林",
+      "亲爱的朋友，无论何时何地，请记住，此刻当下，你就是完美。你不曾说错过一句话，不曾走错过一步路。你生命的每一点每一滴，都是你的来时路。你完全拥有自己，无限浩瀚的自己。好好爱自己。——李美亚",
+      "因九拙堂，有幸与未曾谋面的您结缘，新年来临之际，祝您和您家人健康快乐！温暖每一天！——七猫",
+      "陌生的人或许你曾经历各种各样的挫折也磨难，但是请你不要放弃，因为生活就是有苦有甜，不要让生活打败了你——joe",
+      "愿您新的一年：智慧长，烦恼轻——希望",
+      "请拒绝内耗，随心而行，让我们的节奏慢下来，享受生命的美好！——叶镜",
+      "苦尽甘来，未来可期——代代",
+      "幸福小满——朱朱",
+      "每天都要逗自己开心呀，你一定也行！——Morgan",
+      "好好爱自己——金凤",
+      "人不可能每一步正确，与其重新，不如从心——思思",
+      "愿你像骏马一样一路狂奔，冲就完事儿啦！——李枟静",
+      "幸福安康  心想事成     2026越来越好——王弦",
+      "人生海海，奔赴山海——吴相仪",
+      "银鞍照白马，飒沓如流星。新一年龙腾马跃步步有喜。——芳华",
+      "不要慌，太阳下山有月光，月光落下有朝阳。——春分",
+      "快乐是心里的太阳，给自己温暖也点亮他人。笑了吗？您笑起来很好看！——杭航行",
+      "陌生的小伙伴，来拥抱一下！——星颜",
+      "愿您现在、未来都接住这份幸运，一切都平安顺利。——幸运的杂草",
+      "允许自己不完美——青苹果",
+      "愿你今天有个好心情——双鱼",
+      "一帆风顺——深秋",
+      "祝你天天快乐~——卢淦",
+      "我愿意，送上祝福：祝福天添开心，温柔的好好爱自己，照顾好自己，看见自己的美好。。——海里的鱼儿涛",
+      "愿身体健康，心想事成。——欣欣",
+      "做一个诚信勤奋快乐的人。——青瓷",
+      "岁月流转，人欢喜；顺应四时，养身心；动静皆宜，福寿全！——陈陈",
+      "一生很短，希望你别留遗憾，勇敢地去做自己想做的事情！——微微笑",
+      "愿你眼底有明，心中有暖，前路坦荡，万事可期！——明明",
+      "你真了不起！过去一年你是最厉害的那个人，这一点毋庸置疑，我不由得心生佩服，为你点赞！新的一年，你没病没灾，受人尊敬，你将得到一切你想得到的！——张张有心",
+      "时间从不回答，却让所有坚持显露出金色的质地。——Darling",
+      "爱自己是最浪漫的事情——fyzhang",
+      "自爱而爱人——拈花一笑",
+      "愿你快乐！幸福！一生平安！——小福",
+      "祝阖家幸福！万事如意！——shln",
+      "愿您未来每一天都快乐康健富足——刘宁宁",
+      "愿你身心安泰——不二",
+      "愿你的梦想如月圆，照亮前行的路——🌼锦🍀",
+      "祝福我们都有更美好的生活，平安健康——笑颜",
+      "无论你正在经历什么，或喜或忧……请相信你是这个世界上独一无二的美好，我为你祝福！！！——伐木丁丁",
+      "愿您平安喜乐，梦想成真！——岁月静好",
+      "笑对人生——九月",
+      "修中静，静中觉，觉中修---风君子",
+      "清风——媛媛",
+      "愿你身健心安！——是名",
+      "我很健康，我很阳光，我很自信，打开二维码的朋友你好吗？——丫头",
+      "未来就是由无数个今天、无数个当下组成的，解决好当下的问题，认真做好今天该做的事，未来就会在当下解决的一个个问题中延展出去，水到渠成。——智慧",
+      "愿你所求皆如愿，所得皆欢喜！——佳蓉",
+      "马年到！祝福到！家家户户腾飞跃——与世无争",
+      "未来可期，珍重！——黑黑",
+      "在这个星球上，你是独一无二的存在——安之若素",
+      "平平淡淡才是真，抛开烦恼向前看——润物细无声",
+      "身体健康，元气满满。快乐每一天～——眞意",
+      "嗨呀！打开这个盲盒的你，2026年一定要超幸运！要记得每天对自己说‘我超棒’哦！——陀",
+      "撸起袖子加油干吧！——溶溶",
+      "祝福：平安 健康 幸福 喜悦——祖曙昇",
+      "不要一直关注他人，好好爱自己吧！——春华",
+      "愿你身健心安！——是名",
+      "不要纠结，我们往前看，真实在乎当下，把握好每个当下就好了！——小席",
+      "祝福世界和平安乐祝福人民健康幸福——覃庆华",
+      "祝福亲爱的朋友身体健康，幸福快乐！——人元",
+      "喜盈我室 所愿必得——彼时阳光",
+      "浅喜于光阴安稳于日常——曾",
+      "难走的路都是上坡路，加油💪——琪琪",
+      "接下来的日子一定会越来越好，享受生活吧！——Kelly",
+      "感恩遇见——凯哥笙弟",
+      "愿您喜乐安康，吉祥如意！——馨悦",
+      "祝你平安喜乐！——悦语",
+      "吉祥如意——唐少芳",
+      "亲爱的朋友，感恩相遇，愿新的一年世界和平，愿我们在新的一年都充满着健康、平安、喜悦——宇慧",
+      "喜乐安康，福运绵绵——澜静",
+      "愿远方的你 幸福安康，万事如意——禾禾",
+      "亲爱的朋友，祝福你远离灾祸病痛，幸福快乐——好朋友",
+      "一切的发生皆有利于我，所有的好运在向我涌来。 我就是命好，我就是命好，我的命最好。——向日葵",
+      "坚持到底，就是胜利——徐",
+      "愿你爱意福，所得皆所愿——wellwellwell",
+      "今天也要好好过呀！——sweet",
+      "生命是一棵长满可能的树！——正越",
+      "允许自己不完美——青苹果",
+      "平安顺遂——娟娟",
+      "做好自已，安在当下，不内耗自己！——提拉米苏",
+      "愿您和家人喜乐康宁——平儿",
+      "吉祥安康，喜乐相伴——见安",
+      "对生活多一点信心，对自己多一份爱！——潇宝贝儿",
+      "请放慢你那急促的脚步，花一点点时间，静静地陪伴我们那可爱的亲人，用心体会生活的美好。——心广体胖",
+      "祝您平安喜乐！——彩云之南",
+      "未来可期！加油！！——心悦",
+      "祝福您平安健康喜乐！——Helen",
+      "2026心想事成！——gangzi",
+      "相信是一种强大的力量，相信什么就会出现什么——守拙Changer+",
+      "祝愿你2026年身体健康，心想事成——国泰民安",
+      "㊗️您及家人新的一年，日子红红火火，事事顺心。——心雅-九拙堂健康顾问",
+      "心想事成——紫苏",
+      "最好的祝福送给你——同类",
+      "愿您平安健康，万事顺遂——糖果",
+      "诸事顺心——满目星陈",
+      "祝你健康喜乐——思琴",
+      "你是最棒的——同类",
+      "不要被敌人的气势汹汹所吓倒，不要为尚能忍耐的困难所沮丧，不要因一时的挫折而灰心，道路是曲折的，前途是光明的，黑暗即将过去，曙光就在前方！——yee"
+    ];
+
+    function parseBlessings(rawList) {
+  return rawList.map(item => {
+    const parts = item.split("——");
+    const text = parts[0].trim();
+    const author = parts[1] ? parts[1].trim() : "";
+
+    // 计算长度（这里只看文字长度，不含署名）
+    const len = text.length;
+
+    // 根据长度设置权重：
+    // 你可以自己微调这个规则
+    let weight = 1;
+    if (len > 40 && len <= 80) {
+      weight = 1.5;   // 中等偏长
+    } else if (len > 80 && len <= 140) {
+      weight = 2;     // 比较长
+    } else if (len > 140) {
+      weight = 2.5;   // 很长、很用心的祝福
+    }
+
+    return { text, author, weight };
+  });
+}
+
+
+    let blessingsPool = parseBlessings(rawBlessings);
+    let usedBlessings = [];
+    let historyRecords = [];
+
+    // DOM
+    const timeDisplay = document.getElementById("timeDisplay");
+    const blessingCard = document.getElementById("blessingCard");
+    const blessingTextEl = document.getElementById("blessingText");
+    const blessingAuthorEl = document.getElementById("blessingAuthor");
+    const drawBtn = document.getElementById("drawBtn");
+    const historyListEl = document.getElementById("historyList");
+    const addForm = document.getElementById("addForm");
+    const blessingInput = document.getElementById("blessingInput");
+    const authorInput = document.getElementById("authorInput");
+    const resetFormBtn = document.getElementById("resetFormBtn");
+    const bgm = document.getElementById("bgm");
+
+    // 时间显示
+    function formatDateTime(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const h = String(date.getHours()).padStart(2, "0");
+      const mi = String(date.getMinutes()).padStart(2, "0");
+      const s = String(date.getSeconds()).padStart(2, "0");
+      const weekMap = ["日", "一", "二", "三", "四", "五", "六"];
+      const w = weekMap[date.getDay()];
+      return `${y}年${m}月${d}日 星期${w} ${h}:${mi}:${s}`;
+    }
+
+    function updateTime() {
+      const now = new Date();
+      timeDisplay.textContent = formatDateTime(now);
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // 背景音乐（首次交互后播放）
+    function tryPlayBgm() {
+      if (!bgm) return;
+      bgm.volume = 0.4;
+      bgm.play().catch(() => {});
+    }
+
+    // 抽取祝福
+    function drawBlessing() {
+      if (blessingsPool.length === 0) {
+        blessingTextEl.textContent = "祝福已经全部抽完啦 🎉 这一片小小森林已经被你收集完全。";
+        blessingTextEl.classList.remove("placeholder");
+        blessingAuthorEl.textContent = "";
+        drawBtn.classList.add("disabled");
+        drawBtn.disabled = true;
+        return;
+      }
+
+      const idx = Math.floor(Math.random() * blessingsPool.length);
+      const [selected] = blessingsPool.splice(idx, 1);
+      usedBlessings.push(selected);
+
+      blessingCard.classList.remove("animating");
+      void blessingCard.offsetWidth;
+      blessingCard.classList.add("animating");
+
+      blessingTextEl.textContent = selected.text;
+      blessingTextEl.classList.remove("placeholder");
+      blessingAuthorEl.textContent = selected.author ? `—— ${selected.author}` : "";
+
+      const now = new Date();
+      historyRecords.unshift({
+        ...selected,
+        time: formatDateTime(now),
+      });
+      renderHistory();
+      triggerFireworks();
+      tryPlayBgm();
+    }
+
+    drawBtn.addEventListener("click", () => {
+      if (drawBtn.disabled) return;
+      drawBlessing();
+    });
+
+    // 烟花
+    function triggerFireworks() {
+      const rect = blessingCard.getBoundingClientRect();
+      const positions = [
+        { x: rect.left + 16, y: rect.top + 16 },
+        { x: rect.right - 16, y: rect.top + 16 },
+        { x: rect.left + 16, y: rect.bottom - 16 },
+        { x: rect.right - 16, y: rect.bottom - 16 },
+      ];
+
+      positions.forEach((pos, i) => {
+        setTimeout(() => {
+          createFireworkAt(pos.x, pos.y);
+        }, i * 100);
+      });
+    }
+
+    function createFireworkAt(x, y) {
+      const fw = document.createElement("div");
+      fw.className = "firework";
+      fw.style.left = x + "px";
+      fw.style.top = y + "px";
+      document.body.appendChild(fw);
+      setTimeout(() => fw.remove(), 700);
+    }
+
+    // 历史记录渲染
+    function renderHistory() {
+      historyListEl.innerHTML = "";
+      if (historyRecords.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "history-empty";
+        empty.textContent = "还没有抽到任何祝福，等待第一束小小星火点亮 🌟";
+        historyListEl.appendChild(empty);
+        return;
+      }
+      historyRecords.forEach(rec => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+
+        const textDiv = document.createElement("div");
+        textDiv.className = "history-text";
+        textDiv.textContent = rec.text + (rec.author ? ` —— ${rec.author}` : "");
+
+        const metaDiv = document.createElement("div");
+        metaDiv.className = "history-meta";
+        metaDiv.textContent = rec.time;
+
+        item.appendChild(textDiv);
+        item.appendChild(metaDiv);
+        historyListEl.appendChild(item);
+      });
+    }
+
+    // 添加祝福
+    addForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = blessingInput.value.trim();
+      const author = authorInput.value.trim();
+      if (!text) {
+        alert("请先写下一句祝福内容~");
+        return;
+      }
+      blessingsPool.push({ text, author });
+      alert("祝福已加入抽取池，感谢你的温暖分享！");
+      blessingInput.value = "";
+      authorInput.value = "";
+    });
+
+    resetFormBtn.addEventListener("click", () => {
+      blessingInput.value = "";
+      authorInput.value = "";
+    });
+  </script>
+</body>
+</html>
